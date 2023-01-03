@@ -5,7 +5,7 @@ async function subscribe() {
   navigator.serviceWorker.ready
     .then(function (registration) {
       const vapidPublicKey =
-        "BL6NYkVOTOP4qQ5dKJSAegGEAtO9HCNM51Byw7I-sP970p8Xx34nsPWfWT7g16ekqYb944GkrZgh3w-27WTlB7k";
+        "BIZoty0iCIkAuR4rZtLEaixmbIL3-Xwg3NO8BkX6-vrcIX0UHdZ8Ux9JojPhA8AutoUNANGPHxayJiv4IKcM8po";
 
       return registration.pushManager.subscribe({
         userVisibleOnly: true,

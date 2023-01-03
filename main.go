@@ -2,14 +2,17 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
+	"io"
+	"log"
 
 	webpush "github.com/SherClockHolmes/webpush-go"
 )
 
 const (
-	subscription    = `{"endpoint":"https://fcm.googleapis.com/fcm/send/ff0MeYl9SbU:APA91bHNzDtSXrEU8sTl4upQENMvgJGiLQ2Mxy9yMwbkPH4UhpXQcWvpL4QqNXOdKzr2x9nkW_f6Qn4jol3HpnfRh5HTPsjZZQJI6Iv1h4rcpNbbXhEwl0Q5ZeWERuUxQzxSsmWU3sVs","expirationTime":null,"keys":{"p256dh":"BIuxiJOuIRR5rQ62XWaRph3WVVMQIvS7dpl3HKdOQy1FfffMueTDMRZ6Fh1CDNRcyqmTFbqBXcr_WJDHvXN-P0I","auth":"i5HKXBHSL5XlEDfRnkjliw"}}`
-	vapidPublicKey  = "BHF4CqKMR1IceHhUOomb1Yr3ZLgtC7zPRttt8nDMC7Rzm-ZQvKwlUMv0NoWcJh1xSFEk8hsuBBYhgiKJO7KcsRQ"
-	vapidPrivateKey = "VZiosZzpVr2PUwasgUJThYlnERfpsW4n5caV1-pLV2E"
+	subscription    = `{"endpoint":"https://fcm.googleapis.com/fcm/send/fMUtDWbXoMw:APA91bGL5HsNCxu9QEDB8mefnipF74twF4Bq_9wC4e2lrZjUGPPDoxWCKM_nLU9rng9I8xTE6JbAfGkGNji3Se-d0G-aYsq0RzvYVctBuVm2JUjCWMPptFD_gAx8NKJcBYb4mBm2Y6y4","expirationTime":null,"keys":{"p256dh":"BGm0m1O8aet-Wrwzy9j08T4cplxhXas8nVW8pDkrBEMJuOqG_55S1lSF4HBjJRwupUbCLiFt6SvRzuxQ2XmWpBo","auth":"qzHEnU4KtIqRnuCyZWatCw"}}`
+	vapidPublicKey  = "BIZoty0iCIkAuR4rZtLEaixmbIL3-Xwg3NO8BkX6-vrcIX0UHdZ8Ux9JojPhA8AutoUNANGPHxayJiv4IKcM8po"
+	vapidPrivateKey = "ozhrL0H8JzaI1zZZSrag4Eu-1_MB_CiT3cuuSErAS_I"
 )
 func main() {
 	// Decode subscription
@@ -19,7 +22,6 @@ func main() {
 	// s.Keys.P256dh= "BLpf9QB-2mPCcJr93K7fG6c9vXHFFwbna73gyUXbExW7kxicNWn0Yy_AX7upzS5zwmzrMoUbvzBTpdOVW-hrn20"
 	
 	json.Unmarshal([]byte(subscription), s)
-  //  fmt.Println(s.Endpoint)
 	
 
 	// Send Notification
@@ -32,6 +34,12 @@ func main() {
 	if err != nil {
 		println(err)
 	}
-	println(resp)
+	b, err := io.ReadAll(resp.Body)
+	// b, err := ioutil.ReadAll(resp.Body)  Go.1.15 and earlier
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	fmt.Println(string(b))
 	defer resp.Body.Close()
 }
